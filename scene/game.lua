@@ -101,9 +101,9 @@ function scene:destroy( event )
    for i=#fountain, 1, -1 do
 
       -- Remove particle
-         table.remove( fountain, i )
-         particle:destroy()
-         particle = nil
+      local particle = table.remove( fountain, i )
+      particle:destroy()
+      particle = nil
 
    end
 
