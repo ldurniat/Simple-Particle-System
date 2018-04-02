@@ -55,7 +55,7 @@ local function enterFrame( event )
 
          -- Remove particle
          table.remove( fountain, i )
-         particle:remove()
+         particle:destroy()
          particle = nil
 
       end  
@@ -98,6 +98,17 @@ end
 
 function scene:destroy( event )
  
+   for i=#fountain, 1, -1 do
+
+      -- Remove particle
+         table.remove( fountain, i )
+         particle:destroy()
+         particle = nil
+
+   end
+
+   fountain = nil   
+
 end
  
 scene:addEventListener( 'create', scene )

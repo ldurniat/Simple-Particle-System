@@ -68,9 +68,10 @@ function M.new()
 
 	end
 
-	function instance:remove()
+	function instance:destroy()
 
 		display.remove( self )
+		self = nil
 
 	end			
 
