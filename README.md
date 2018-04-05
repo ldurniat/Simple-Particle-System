@@ -7,7 +7,7 @@
 
 To run code you need install [Corona SDK](https://portal.coronalabs.com) 
 
-## Dependencies
+### Dependencies
 
 - [objectpool](https://github.com/ldurniat/Object-Pool) - Simple module for Corona for reusing objects instead of creating new ones.
 
