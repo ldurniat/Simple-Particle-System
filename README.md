@@ -3,10 +3,13 @@
 
 ![Screenshot](https://i.imgur.com/qWnANsq.gif)
 
-
 ### Run
 
 To run code you need install [Corona SDK](https://portal.coronalabs.com) 
+
+## Dependencies
+
+- [objectpool](https://github.com/ldurniat/Object-Pool) - Simple module for Corona for reusing objects instead of creating new ones.
 
 ### License
 

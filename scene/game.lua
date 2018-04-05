@@ -4,18 +4,19 @@
 -- @module  game
 -- @author Łukasz Durniat
 -- @license MIT
--- @copyright Łukasz Durniat, Mar-2018
+-- @copyright Łukasz Durniat, Apr-2018
 ------------------------------------------------------------------------------------------------
 
 -- ------------------------------------------------------------------------------------------ --
---                                 REQUIRED MODULES                                             --                
+--                                 REQUIRED MODULES                                           --                
 -- ------------------------------------------------------------------------------------------ --
  
-local composer  = require 'composer' 
-local particles = require 'scene.game.lib.particles' 
+local composer   = require 'composer' 
+local particles  = require 'scene.game.lib.particles' 
+local objectpool = require 'pl.ldurniat.objectpool.objectpool' 
 
 -- ------------------------------------------------------------------------------------------ --
---                                 MODULE DECLARATION                                       --                 
+--                                 MODULE DECLARATION                                         --                 
 -- ------------------------------------------------------------------------------------------ --
 
 local scene = composer.newScene()
@@ -33,17 +34,37 @@ local scene = composer.newScene()
 -- ------------------------------------------------------------------------------------------ --
 
 local fountain = {} 
+local particlePool
 
 function scene:create( event )
- 
-   local sceneGroup = self.view
+
+   local createObject = function() 
+
+      return particles.new() 
+
+   end 
+
+   local resetObject = function( object )
+
+      object:reset()
+
+   end
+
+   particlePool = objectpool.init( createObject, 150, resetObject )
 
 end
 
 local function enterFrame( event )
+  
+   -- Get particle from pool
+   local particleFromPool = particlePool:get()
 
-   -- Create new particle
-   fountain[#fountain + 1] = particles.new()
+   -- Check there is any particle
+   if particleFromPool then
+
+      fountain[#fountain + 1] = particleFromPool
+
+   end   
 
    for i=#fountain, 1, -1 do
 
@@ -55,7 +76,8 @@ local function enterFrame( event )
 
          -- Remove particle
          table.remove( fountain, i )
-         particle:destroy()
+         -- Put back particle into pool
+         particlePool:put( particle )
          particle = nil
 
       end  
@@ -102,12 +124,15 @@ function scene:destroy( event )
 
       -- Remove particle
       local particle = table.remove( fountain, i )
-      particle:destroy()
+      particle:removeSelf()
       particle = nil
 
    end
 
-   fountain = nil   
+   fountain = nil 
+   --Remove pool
+   particlePool:removeSelf()
+   particlePool = nil  
 
 end
  

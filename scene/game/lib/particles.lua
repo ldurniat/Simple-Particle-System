@@ -4,7 +4,7 @@
 -- @module  particles
 -- @author Łukasz Durniat
 -- @license MIT
--- @copyright Łukasz Durniat, Mar-2018
+-- @copyright Łukasz Durniat, Apr-2018
 ------------------------------------------------------------------------------------------------
 
 -- ------------------------------------------------------------------------------------------ --
@@ -39,7 +39,7 @@ local _B  = display.viewableContentHeight - display.screenOriginY
 ------------------------------------------------------------------------------------------------
 -- Constructor function of Particle module.
 --
--- @return The ship instance.
+-- @return The particle instance.
 ------------------------------------------------------------------------------------------------
 function M.new()
 
@@ -47,33 +47,41 @@ function M.new()
 	local scene = composer.getScene( composer.getSceneName( 'current' ) )
 	local parent = scene.view	
 
-	local instance = display.newCircle( parent, _CX, _B - 20, 16 )
-
-	-- Add basic properties
-	instance.vx = mRandom( -1, 1 ) + mRandom()
-	instance.vy = mRandom( -4, -2 ) + mRandom()  
+	-- Create new instance
+	local instance = display.newCircle( parent, 0, 0, 16 )
  
+ 	-- Set default values
+	function instance:reset() 
+
+		-- Set position
+		self.x = _CX
+		self.y = _B - 20
+		-- Set scale
+		self.xScale = 1
+		self.yScale = 1
+		-- Set velocity
+		self.vx = mRandom( -1, 1 ) + mRandom()
+		self.vy = mRandom( -4, -2 ) + mRandom() 
+
+	end	
+
+	-- Update position, scale and transparency
 	function instance:update()
 
-		self.x = self.x + self.vx
-		self.y = self.y + self.vy
+		self:translate( self.vx, self.vy )
 		self.alpha = self.alpha - 0.005
 		self:scale( 0.995, 0.995 )
 
 	end
 
+	-- Return true if instance is not visible otherwise return false
 	function instance:finished()
 
 		return self.alpha <= 0 
 
 	end
 
-	function instance:destroy()
-
-		display.remove( self )
-		self = nil
-
-	end			
+	instance:reset()		
 
 	return instance
 	
