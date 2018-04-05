@@ -57,7 +57,7 @@ end
 local function enterFrame( event )
   
    -- Get particle from pool
-   local particleFromPool = particlePool:get()
+   local particleFromPool = particlePool.get()
 
    -- Check there is any particle
    if particleFromPool then
@@ -77,7 +77,7 @@ local function enterFrame( event )
          -- Remove particle
          table.remove( fountain, i )
          -- Put back particle into pool
-         particlePool:put( particle )
+         particlePool.put( particle )
          particle = nil
 
       end  

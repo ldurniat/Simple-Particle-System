@@ -55,15 +55,15 @@ function M.init( createObject, count, resetObject )
 	--- Gets a single unused object from the pool.
 	--
 	-- @return A single instance of an unused object from the pool, or nil if no unused objects exists.
-	function instance:get()
+	function instance.get()
 
-		local index = #self.pool
+		local index = #instance.pool
 
 		if index > 0 then 
 
 			-- Get last available object from pool
-			local object = self.pool[index]
-			self.pool[index] = nil
+			local object = instance.pool[index]
+			instance.pool[index] = nil
 
 			-- "Add" object on the screen
 			object.alpha = 1
@@ -87,14 +87,14 @@ function M.init( createObject, count, resetObject )
 	--- Put back object into pool.object
 	--
 	-- @param object The object placed back into pool.object
-	function instance:put( object )
+	function instance.put( object )
 
 		-- "Remove" from the screen
 		object.alpha = 0
 		-- Cancel all transition on this object
 		transition.cancel( object )
 		-- Put back object into pool 
-		self.pool[#self.pool + 1] = object
+		instance.pool[#instance.pool + 1] = object
 
 	end	
 
