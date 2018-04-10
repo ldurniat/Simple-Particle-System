@@ -43,9 +43,8 @@ local _B  = display.viewableContentHeight - display.screenOriginY
 ------------------------------------------------------------------------------------------------
 function M.new()
 
-	-- Get the current scene
-	local scene = composer.getScene( composer.getSceneName( 'current' ) )
-	local parent = scene.view	
+	-- Get the current scene group
+	local parent = display.currentStage
 
 	-- Create new instance
 	local instance = display.newCircle( parent, 0, 0, 16 )
